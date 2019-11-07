@@ -1,4 +1,4 @@
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.shortcuts import render, redirect
 from first.forms import SignUpForm, LoginForm
 
@@ -6,6 +6,11 @@ from first.forms import SignUpForm, LoginForm
 # Create your views here.
 def base_html(request):
     return render(request, 'base.html', {'user': request.user.is_authenticated})
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/')
 
 
 def register(request):
@@ -16,7 +21,7 @@ def register(request):
             username = form.cleaned_data.get('username')
             raw_pass = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_pass)
-            login(request, user)
+            auth_login(request, user)
             return redirect('/register')
     else:
         form = SignUpForm()
