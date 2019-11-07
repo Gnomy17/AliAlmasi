@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post" id="register_form" action="{% url 'register' %}">
+    <form method="post" id="register_form" action="{% url 'register' %}" xmlns="http://www.w3.org/1999/html">
         {% csrf_token %}
-{#        {{ form.as_p }}#}
         {% for field in form %}
             <p>
                 {{ field.label_tag }}<br>
@@ -11,9 +10,11 @@
                 {% if field.help_text %}
                     <small style="color: cyan">{{ field.help_text }}</small>
                 {% endif %}
-                {% for error in field.error %}
-                    <p style="color: cyan">{{ error }}</p>
-                {% endfor %}
+            <div id="errors">
+                {% if  password_mismatch %}
+                    گذرواژه و تکرار گذرواژه یکسان نیستند<br>
+                {% endif %}
+            </div>
             </p>
         {% endfor %}
         <button type="submit" name="submit">Register!</button>
