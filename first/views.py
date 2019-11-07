@@ -20,4 +20,4 @@ def register(request):
             return redirect('')
     else:
         form = SignUpForm()
-    return render(request, 'register.html')
+    return render(request, 'register.html', {'form': form})
