@@ -6,12 +6,17 @@
 </head>
 <body>
 <div id="navbar">
-    <a id="login">login</a>
-    <a id="register" href="{% url 'register' %}">register</a>
+    {% if not user %}
+        <a id="login" href="{% url 'login' %}">login</a>
+        <a id="register" href="{% url 'register' %}">register</a>
+    {% endif %}
+    {% if user %}
+        <a id="logout">logout</a>
+    {% endif %}
     <a id="homepage" href="/">home</a>
 </div>
 {% block content %}
-سلام. به سامانه‌ی انتخاب واحد مجازی خوش آمدید.
+    سلام. به سامانه‌ی انتخاب واحد مجازی خوش آمدید.
 {% endblock %}
 </body>
 </html>
