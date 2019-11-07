@@ -187,7 +187,6 @@ fabric.properties
 .idea/httpRequests
 
 #db.sqlite
-db.sqlite3
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
