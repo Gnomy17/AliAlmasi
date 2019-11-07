@@ -21,5 +21,5 @@ from first.views import base_html, register
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', base_html),
-    path('register', register)
+    path('register', register, name='register')
 ]
