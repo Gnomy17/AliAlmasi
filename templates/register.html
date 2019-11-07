@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post" id="register_form">
+    <form method="post" id="register_form" action="{% url 'register' %}">
         {% csrf_token %}
 {#        {{ form.as_p }}#}
         {% for field in form %}
