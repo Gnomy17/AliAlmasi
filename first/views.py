@@ -69,7 +69,7 @@ def contact_us(request):
             #     ['ahmadrahimiuni@gmail.com',]
             # )
             email = EmailMessage(request.POST['title'], request.POST['text'], to=['webe19lopers@gmail.com'])
-            email.send(fail_silently=False)
+            # email.send(fail_silently=False)
             return redirect('/contact_success')
         else:
             print("BAaaaaaaaaaaaa! no success!")

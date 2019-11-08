@@ -117,27 +117,34 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-ADMINS = (
-    ('masih', 'masih.eskandar@gmail.com'),
-)
+# ADMINS = (
+#     ('masih', 'masih.eskandar@gmail.com'),
+# )
+#
+# MANAGERS = ADMINS
+#
+#
+# # When you are playing around with the app and you expect that an email should
+# # have been sent, just run `./manage.py send_mail` and you will get the mail
+# # to the ADMINS account, no matter who the real recipient was.
+# MAILER_EMAIL_BACKEND = 'django_libs.test_email_backend.EmailBackend'
+# TEST_EMAIL_BACKEND_RECIPIENTS = ADMINS
+#
+# FROM_EMAIL = ADMINS[0][1]
+# EMAIL_SUBJECT_PREFIX = ''
+#
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = FROM_EMAIL
+#
+# # Enter your gmail PW from the ADMINS email entered above.
+# EMAIL_HOST_PASSWORD = 'ytongvq123'
+# EMAIL_PORT = 587
+#
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-MANAGERS = ADMINS
-
-
-# When you are playing around with the app and you expect that an email should
-# have been sent, just run `./manage.py send_mail` and you will get the mail
-# to the ADMINS account, no matter who the real recipient was.
-MAILER_EMAIL_BACKEND = 'django_libs.test_email_backend.EmailBackend'
-TEST_EMAIL_BACKEND_RECIPIENTS = ADMINS
-
-FROM_EMAIL = ADMINS[0][1]
-EMAIL_SUBJECT_PREFIX = ''
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = FROM_EMAIL
-
-# Enter your gmail PW from the ADMINS email entered above.
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'masih.eskandar@gmail.com'
 EMAIL_HOST_PASSWORD = 'ytongvq123'
 EMAIL_PORT = 587
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
