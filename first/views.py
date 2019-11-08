@@ -1,5 +1,5 @@
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
@@ -74,6 +74,7 @@ def contact_us(request):
             # )
             email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'], to=['webe19lopers@gmail.com'])
             # email.send(fail_silently=False)
+            email.send()
             return redirect('/contact_success')
         else:
             print("BAaaaaaaaaaaaa! no success!")
@@ -109,9 +110,9 @@ def change_info(request):
 
 
 def panel(request):
-    return render(request, 'panel.html')
+    return render(request, 'panel.html', {'userrr':request.user})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def new_course(request):
     if request.method == 'POST':
         form = CourseForm(request.POST)

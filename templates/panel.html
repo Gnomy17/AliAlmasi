@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a id="make_new_course" href="{% url 'new_course' %}">make a course!</a>
+    {% if userrr.is_superuser %}
+        <a id="make_new_course" href="{% url 'new_course' %}">make a course!</a>
+    {% endif %}
     <a id="courses" href="{% url 'courses' %}">see available courses</a>
 {% endblock %}
