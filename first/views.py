@@ -94,8 +94,13 @@ def contact_success(request):
 
 @login_required
 def profile(request):
+    paths = glob.glob("media/" + request.user.username + '/' + '*')
+    if len(paths) > 0:
+        path = paths[0]
+    else:
+        path = None
     return render(request, 'profile.html',
-                  {'user': request.user, 'imgpath': glob.glob("media/" + request.user.username + '/' + '*')[0]})
+                  {'user': request.user, 'imgpath': path})
 
 
 @login_required
