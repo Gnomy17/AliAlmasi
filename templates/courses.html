@@ -15,7 +15,7 @@
     </div>
     <form method="post" id="search_form" action="{% url 'courses' %}">
         {% csrf_token %}
-{#        {{ search_form.as_p }}#}
+        {#        {{ search_form.as_p }}#}
         {% for field in search_form %}
             <p>
                 {{ field.label_tag }}<br>
@@ -48,6 +48,11 @@
                 <div>{{ course.first_day }} {{ course.second_day }}</div>
                 <div>{{ course.start_time.hour }}:{{ course.start_time.minute }} {{ course.end_time.hour }}:{{ course.end_time.minute }}</div>
                 <div>{{ course.teacher }}</div>
+                {% for course1 in errored %}
+                    {% if course1 == course %}
+                        <span class="error">زمان امتحان درس با سایر امتحانات تداخل دارد</span>
+                    {% endif %}
+                {% endfor %}
             </div>
         {% endfor %}
     </div>

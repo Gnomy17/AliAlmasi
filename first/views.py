@@ -149,12 +149,20 @@ def new_course(request):
         form = CourseForm()
     return render(request, 'new_course.html', {'form': form})
 
+
 @login_required
 def courses(request):
     hi = CourseUser.objects.filter(user_id=request.user)
     my_courses = list()
     for course in hi:
         my_courses.append(course.course_id)
+    errored = list()
+    for course1 in my_courses:
+        for course2 in my_courses:
+            if course1 != course2:
+                if course1.exam_date == course2.exam_date:
+                    errored.append(course1)
+
     coursesss = list()
     for course in Course.objects.all():
         found = 0
@@ -198,10 +206,11 @@ def courses(request):
                     if found == 0:
                         result_courses.append(course)
             return render(request, 'courses.html',
-                          {'courses': coursesss, 'result_courses': result_courses, 'search_form': form, 'my_courses':my_courses})
+                          {'courses': coursesss, 'result_courses': result_courses, 'search_form': form,
+                           'my_courses': my_courses, 'errored': errored})
     else:
         form = SearchForm()
-    return render(request, 'courses.html', {'courses': coursesss, 'search_form': form, 'my_courses':my_courses})
+    return render(request, 'courses.html', {'courses': coursesss, 'search_form': form, 'my_courses': my_courses})
 
 
 @login_required
