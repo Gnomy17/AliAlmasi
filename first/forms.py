@@ -38,7 +38,7 @@ class CourseForm(ModelForm):
     class Meta:
         model = Course
         fields = ['department', 'name', 'course_number', 'group_number', 'teacher', 'start_time', 'end_time',
-                  'first_day', 'second_day']
+                  'exam_date', 'first_day', 'second_day']
 
 
 class SearchForm(forms.Form):
@@ -46,4 +46,3 @@ class SearchForm(forms.Form):
     department = forms.BooleanField(required=False)
     teacher = forms.BooleanField(required=False)
     course = forms.BooleanField(required=False)
-
