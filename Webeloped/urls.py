@@ -27,7 +27,7 @@ urlpatterns = [
     path('logout', logout, name='logout'),
     path('contact', contact_us, name='contact'),
     path('contact_success', contact_success, name='contact_success'),
-    path('panel', panel, name='panel')
+    path('panel', panel, name='panel'),
     path('contact_success', contact_success, name='contact_success'),
-    path('profile', profile, name='profile')
+    path('profile', profile, name='profile'),
 ]
