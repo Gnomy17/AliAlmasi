@@ -23,6 +23,7 @@ class Course(models.Model):
     first_day = models.IntegerField(choices=DAYS_OF_WEEK)
     second_day = models.IntegerField(choices=DAYS_OF_WEEK, null=True, blank=True)
 
+
 class CourseUser(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
