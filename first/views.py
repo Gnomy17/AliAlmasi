@@ -212,3 +212,7 @@ def take_course(request, course_id):
     course_user.save()
     print("success")
     return redirect('courses')
+
+def delete_course(request, course_id):
+    course_user = CourseUser.objects.filter(user_id=request.user, course_id=course_id).delete()
+    return redirect('courses')
