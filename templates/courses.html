@@ -53,6 +53,7 @@
                         <span class="error">زمان امتحان درس با سایر امتحانات تداخل دارد</span>
                     {% endif %}
                 {% endfor %}
+                <a class="remove" href="/delete_course/{{ course.id }}/">delete this course</a>
             </div>
         {% endfor %}
     </div>

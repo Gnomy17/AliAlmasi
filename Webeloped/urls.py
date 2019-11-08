@@ -19,7 +19,7 @@ from django.urls import path
 
 from Webeloped import settings
 from first.views import base_html, register, login, logout, contact_us, contact_success, profile, change_info, \
-    new_course, courses, take_course
+    new_course, courses, take_course, delete_course
 from first.views import base_html, register, login, logout, contact_us, contact_success, panel
 
 urlpatterns = [
@@ -35,7 +35,9 @@ urlpatterns = [
     path('change_info', change_info, name='change_info'),
     path('new_course', new_course, name='new_course'),
     path('courses', courses, name='courses'),
-    path('take_course/<int:course_id>/', take_course, name='take_course')
+    path('take_course/<int:course_id>/', take_course, name='take_course'),
+    path('delete_course/<int:course_id>/', delete_course, name='delete_course')
+
 ]
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL,
