@@ -1,6 +1,6 @@
 import glob
 import os
-
+import datetime
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
@@ -142,6 +142,9 @@ def new_course(request):
         if form.is_valid():
             form.save()
             return redirect('/panel')
+        else:
+            for msg in form.errors:
+                print(msg)
     else:
         form = CourseForm()
     return render(request, 'new_course.html', {'form': form})
