@@ -1,4 +1,5 @@
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
@@ -68,7 +69,7 @@ def contact_us(request):
             #     # 'webe19lopers@gmail.com'
             #     ['ahmadrahimiuni@gmail.com',]
             # )
-            email = EmailMessage(request.POST['title'], request.POST['text'], to=['webe19lopers@gmail.com'])
+            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'], to=['webe19lopers@gmail.com'])
             # email.send(fail_silently=False)
             return redirect('/contact_success')
         else:
@@ -80,6 +81,10 @@ def contact_us(request):
 
 def contact_success(request):
     return render(request, 'contact_success.html')
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html', {'user':request.user})
 
 
 def panel(request):

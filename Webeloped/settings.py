@@ -148,3 +148,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'masih.eskandar@gmail.com'
 EMAIL_HOST_PASSWORD = 'ytongvq123'
 EMAIL_PORT = 587
+
+LOGIN_URL = "/login"
