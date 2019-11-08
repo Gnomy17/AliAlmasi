@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
-from first.forms import SignUpForm, LoginForm, ContactForm
+from first.forms import SignUpForm, LoginForm, ContactForm, CourseForm
 
 
 # Create your views here.
@@ -69,7 +69,8 @@ def contact_us(request):
             #     # 'webe19lopers@gmail.com'
             #     ['ahmadrahimiuni@gmail.com',]
             # )
-            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'], to=['webe19lopers@gmail.com'])
+            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'],
+                                 to=['webe19lopers@gmail.com'])
             # email.send(fail_silently=False)
             return redirect('/contact_success')
         else:
@@ -82,10 +83,20 @@ def contact_us(request):
 def contact_success(request):
     return render(request, 'contact_success.html')
 
+
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {'user':request.user})
+    return render(request, 'profile.html', {'user': request.user})
 
 
 def panel(request):
     return render(request, 'panel.html')
+
+
+def new_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        print("AAAA")
+    else:
+        form = CourseForm()
+    return render(request, 'new_course.html', {'form': form})

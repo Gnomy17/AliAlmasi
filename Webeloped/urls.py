@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from first.views import base_html, register, login, logout, contact_us, contact_success, profile
+from first.views import base_html, register, login, logout, contact_us, contact_success, profile, new_course
 from first.views import base_html, register, login, logout, contact_us, contact_success, panel
 
 urlpatterns = [
@@ -29,4 +29,5 @@ urlpatterns = [
     path('panel', panel, name='panel'),
     path('contact_success', contact_success, name='contact_success'),
     path('profile', profile, name='profile'),
+    path('new_course', new_course, name='new_course')
 ]
