@@ -80,3 +80,7 @@ def contact_us(request):
 
 def contact_success(request):
     return render(request, 'contact_success.html')
+
+
+def panel(request):
+    return render(request, 'panel.html')
