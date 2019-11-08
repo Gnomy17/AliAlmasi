@@ -9,7 +9,7 @@
                 <div>{{ course.first_day }} {{ course.second_day }}</div>
                 <div>{{ course.start_time.hour }}:{{ course.start_time.minute }} {{ course.end_time.hour }}:{{ course.end_time.minute }}</div>
                 <div>{{ course.teacher }}</div>
-                <a href="/take_course/{{ course.id }}/">take this course</a>
+                <a class="add" href="/take_course/{{ course.id }}/">take this course</a>
             </div>
         {% endfor %}
     </div>

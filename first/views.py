@@ -155,6 +155,14 @@ def courses(request):
     my_courses = list()
     for course in hi:
         my_courses.append(course.course_id)
+    coursesss = list()
+    for course in Course.objects.all():
+        found = 0
+        for course2 in my_courses:
+            if course == course2:
+                found = 1
+        if found == 0:
+            coursesss.append(course)
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -190,10 +198,10 @@ def courses(request):
                     if found == 0:
                         result_courses.append(course)
             return render(request, 'courses.html',
-                          {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form, 'my_courses':my_courses})
+                          {'courses': coursesss, 'result_courses': result_courses, 'search_form': form, 'my_courses':my_courses})
     else:
         form = SearchForm()
-    return render(request, 'courses.html', {'courses': Course.objects.all(), 'search_form': form, 'my_courses':my_courses})
+    return render(request, 'courses.html', {'courses': coursesss, 'search_form': form, 'my_courses':my_courses})
 
 
 @login_required
