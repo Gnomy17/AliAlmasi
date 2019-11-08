@@ -31,6 +31,7 @@ class ContactForm(forms.Form):
 class ChangeInfo(forms.Form):
     first_name = forms.CharField(required=False)
     last_name = forms.CharField(required=False)
+    filee = forms.FileField(required=False)
 
 
 class CourseForm(ModelForm):

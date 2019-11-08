@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -20,3 +21,6 @@ class Course(models.Model):
     end_time = models.TimeField()
     first_day = models.IntegerField(choices=DAYS_OF_WEEK)
     second_day = models.IntegerField(choices=DAYS_OF_WEEK, null=True, blank=True)
+
+
+

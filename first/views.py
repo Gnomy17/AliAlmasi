@@ -5,7 +5,6 @@ from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
 from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm
 
-
 # Create your views here.
 from first.models import Course
 
@@ -72,7 +71,8 @@ def contact_us(request):
             #     # 'webe19lopers@gmail.com'
             #     ['ahmadrahimiuni@gmail.com',]
             # )
-            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'], to=['webe19lopers@gmail.com'])
+            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'],
+                                 to=['webe19lopers@gmail.com'])
             # email.send(fail_silently=False)
             return redirect('/contact_success')
         else:
@@ -85,16 +85,23 @@ def contact_us(request):
 def contact_success(request):
     return render(request, 'contact_success.html')
 
+
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {'user':request.user})
+    return render(request, 'profile.html',
+                  {'user': request.user, 'imgpath': "/media/" + request.user.username + '.png'})
+
 
 @login_required
 def change_info(request):
     if request.method == 'POST':
-        form = ChangeInfo(request.POST)
+        form = ChangeInfo(request.POST, request.FILES)
         if form.is_valid():
             user = request.user
+            file = request.FILES.get('filee')
+            dest = open('media/' + user.username + '.png', 'wb+')
+            for chunk in file.chunks():
+                dest.write(chunk)
             if form.cleaned_data.get('first_name'):
                 user.first_name = form.cleaned_data.get('first_name')
                 print("first name changed")
@@ -103,6 +110,9 @@ def change_info(request):
                 print("last name changed")
             user.save()
             return redirect('/profile')
+        else:
+            for msg in form.errors:
+                print(msg)
     else:
         form = ChangeInfo()
     return render(request, 'change_info.html', {'form': form})
@@ -124,4 +134,4 @@ def new_course(request):
 
 
 def courses(request):
-    return render(request, 'courses.html', {'courses':Course.objects.all()})
+    return render(request, 'courses.html', {'courses': Course.objects.all()})
