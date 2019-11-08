@@ -6,10 +6,37 @@
             <div class="{{ course.course_number }}_{{ course.group_number }}">
                 <h4>{{ course.name }}</h4>
                 <div>{{ course.department }}</div>
-                <div>{{ course.first_day }}  {{ course.second_day }}</div>
-                <div>{{ course.start_time.hour }}:{{ course.start_time.minute }}  {{ course.end_time.hour }}:{{ course.end_time.minute }}</div>
+                <div>{{ course.first_day }} {{ course.second_day }}</div>
+                <div>{{ course.start_time.hour }}:{{ course.start_time.minute }} {{ course.end_time.hour }}:{{ course.end_time.minute }}</div>
                 <div>{{ course.teacher }}</div>
             </div>
         {% endfor %}
     </div>
+    <form method="post" id="search_form" action="{% url 'courses' %}">
+        {% csrf_token %}
+{#        {{ search_form.as_p }}#}
+        {% for field in search_form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: cyan">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.error %}
+                    <p style="color: cyan">{{ error }}</p>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit" name="submit">Search!</button>
+    </form>
+    {% if result_courses %}
+        <div id="search_result">
+            {% for course in result_courses %}
+                <div class="{{ course.course_number }}_{{ course.group_number }}">
+                    <h4>{{ course.name }}</h4>
+                    <div>{{ course.teacher }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

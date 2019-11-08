@@ -1,9 +1,11 @@
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
 from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm
+
+from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm, SearchForm
 
 # Create your views here.
 from first.models import Course
@@ -74,6 +76,7 @@ def contact_us(request):
             email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'],
                                  to=['webe19lopers@gmail.com'])
             # email.send(fail_silently=False)
+            email.send()
             return redirect('/contact_success')
         else:
             print("BAaaaaaaaaaaaa! no success!")
@@ -90,6 +93,7 @@ def contact_success(request):
 def profile(request):
     return render(request, 'profile.html',
                   {'user': request.user, 'imgpath': "/media/" + request.user.username + '.png'})
+
 
 
 @login_required
@@ -119,9 +123,10 @@ def change_info(request):
 
 
 def panel(request):
-    return render(request, 'panel.html')
+    return render(request, 'panel.html', {'userrr': request.user})
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def new_course(request):
     if request.method == 'POST':
         form = CourseForm(request.POST)
@@ -134,4 +139,42 @@ def new_course(request):
 
 
 def courses(request):
-    return render(request, 'courses.html', {'courses': Course.objects.all()})
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data.get('search_query')
+            result_courses = list()
+            result_courses1 = None
+            result_courses2 = None
+            result_courses3 = None
+            if form.cleaned_data.get('teacher'):
+                result_courses1 = (Course.objects.filter(teacher__contains=search_text))
+            if form.cleaned_data.get('course'):
+                result_courses2 = (Course.objects.filter(name__contains=search_text))
+            if form.cleaned_data.get('department') or not (
+                    form.cleaned_data.get('teacher') or form.cleaned_data.get('course')):
+                result_courses3 = (Course.objects.filter(department__contains=search_text))
+            if result_courses1:
+                for course in result_courses1:
+                    result_courses.append(course)
+            if result_courses2:
+                for course in result_courses2:
+                    found = 0
+                    for course2 in result_courses:
+                        if course == course2:
+                            found = 1;
+                    if found == 0:
+                        result_courses.append(course)
+            if result_courses3:
+                for course in result_courses3:
+                    found = 0
+                    for course2 in result_courses:
+                        if course == course2:
+                            found = 1;
+                    if found == 0:
+                        result_courses.append(course)
+            return render(request, 'courses.html',
+                          {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form})
+    else:
+        form = SearchForm()
+    return render(request, 'courses.html', {'courses': Course.objects.all(), 'search_form': form})
