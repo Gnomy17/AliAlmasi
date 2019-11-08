@@ -19,19 +19,20 @@ def register(request):
         form = SignUpForm(request.POST)
         raw_username = request.POST['username']
         userFoundError = None
+        pass_mismatch = None
         if User.objects.filter(username__exact=raw_username):
             userFoundError = True
-        elif form.is_valid():
+        if request.POST['password1'] != request.POST['password2']:
+            pass_mismatch = True
+        if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             raw_pass = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_pass)
             auth_login(request, user)
-            return render(request, 'register.html',
-                          {'form': form, 'pass_mismatch': form.error_messages['password_mismatch']})
         return render(request, 'register.html',
                       {'form': form, 'userFoundError': userFoundError,
-                       'pass_mismatch': form.error_messages['password_mismatch']})
+                       'pass_mismatch': pass_mismatch})
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
