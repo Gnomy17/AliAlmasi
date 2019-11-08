@@ -1,7 +1,7 @@
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from first.forms import SignUpForm, LoginForm
+from first.forms import SignUpForm, LoginForm, ContactForm
 
 
 # Create your views here.
@@ -53,3 +53,19 @@ def login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            return redirect('/contact_success')
+        else:
+            print("BAaaaaaaaaaaaa! no success!")
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})
+
+
+def contact_success(request):
+    return render(request, 'contact_success.html')
