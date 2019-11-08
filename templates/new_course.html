@@ -1,5 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    <form method="post" id="make_course" action="{% url 'new_course' %}">
+        {% csrf_token %}
+        {#        {{ form.as_p }}#}
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: cyan">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.error %}
+                    <p style="color: cyan">{{ error }}</p>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit" name="submit">Change!</button>
+        {% if  error %}
+            <div id="error">
+                {{ error }}
+            </div>
+        {% endif %}
+    </form>
 {% endblock %}

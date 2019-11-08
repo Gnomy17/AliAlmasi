@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a id="make_new_course" href="new_course.html"></a>
+    <a id="make_new_course" href="{% url 'new_course' %}">make a course!</a>
+    <a id="courses" href="{% url 'courses' %}">see available courses</a>
 {% endblock %}

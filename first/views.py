@@ -3,10 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
-from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo
+from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm
 
 
 # Create your views here.
+from first.models import Course
+
+
 def base_html(request):
     return render(request, 'base.html')
 
@@ -104,6 +107,21 @@ def change_info(request):
         form = ChangeInfo()
     return render(request, 'change_info.html', {'form': form})
 
+
 def panel(request):
     return render(request, 'panel.html')
 
+
+def new_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/panel')
+    else:
+        form = CourseForm()
+    return render(request, 'new_course.html', {'form': form})
+
+
+def courses(request):
+    return render(request, 'courses.html', {'courses':Course.objects.all()})
