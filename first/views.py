@@ -1,3 +1,6 @@
+import glob
+import os
+
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
@@ -92,7 +95,7 @@ def contact_success(request):
 @login_required
 def profile(request):
     return render(request, 'profile.html',
-                  {'user': request.user, 'imgpath': "/media/" + request.user.username + '.png'})
+                  {'user': request.user, 'imgpath': glob.glob("media/" + request.user.username + '/' + '*')[0]})
 
 
 @login_required
@@ -103,7 +106,8 @@ def change_info(request):
             user = request.user
             file = request.FILES.get('filee')
             if file:
-                dest = open('media/' + user.username + '.png', 'wb+')
+                os.mkdir('media/' + user.username)
+                dest = open('media/' + user.username + '/' + file.name, 'wb+')
                 for chunk in file.chunks():
                     dest.write(chunk)
             if form.cleaned_data.get('first_name'):
