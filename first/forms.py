@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 
-
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, required=False, help_text="first name")
     last_name = forms.CharField(max_length=100, required=False, help_text="last name")
@@ -24,3 +23,8 @@ class ContactForm(forms.Form):
     title = forms.CharField(required=True)
     text = forms.CharField(widget=forms.Textarea, required=True, max_length=250, min_length=10)
     email = forms.EmailField(required=True)
+
+
+class ChangeInfo(forms.Form):
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)

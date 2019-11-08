@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
-from first.forms import SignUpForm, LoginForm, ContactForm
+from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo
 
 
 # Create your views here.
@@ -86,6 +86,24 @@ def contact_success(request):
 def profile(request):
     return render(request, 'profile.html', {'user':request.user})
 
+@login_required
+def change_info(request):
+    if request.method == 'POST':
+        form = ChangeInfo(request.POST)
+        if form.is_valid():
+            user = request.user
+            if form.cleaned_data.get('first_name'):
+                user.first_name = form.cleaned_data.get('first_name')
+                print("first name changed")
+            if form.cleaned_data.get('last_name'):
+                user.last_name = form.cleaned_data.get('last_name')
+                print("last name changed")
+            user.save()
+            return redirect('/profile')
+    else:
+        form = ChangeInfo()
+    return render(request, 'change_info.html', {'form': form})
 
 def panel(request):
     return render(request, 'panel.html')
+
