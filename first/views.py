@@ -3,8 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
-from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm
-
+from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm, SearchForm
 
 # Create your views here.
 from first.models import Course
@@ -72,7 +71,8 @@ def contact_us(request):
             #     # 'webe19lopers@gmail.com'
             #     ['ahmadrahimiuni@gmail.com',]
             # )
-            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'], to=['webe19lopers@gmail.com'])
+            email = EmailMessage(request.POST['title'], request.POST['text'] + request.POST['email'],
+                                 to=['webe19lopers@gmail.com'])
             # email.send(fail_silently=False)
             email.send()
             return redirect('/contact_success')
@@ -86,9 +86,11 @@ def contact_us(request):
 def contact_success(request):
     return render(request, 'contact_success.html')
 
+
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {'user':request.user})
+    return render(request, 'profile.html', {'user': request.user})
+
 
 @login_required
 def change_info(request):
@@ -110,7 +112,8 @@ def change_info(request):
 
 
 def panel(request):
-    return render(request, 'panel.html', {'userrr':request.user})
+    return render(request, 'panel.html', {'userrr': request.user})
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def new_course(request):
@@ -125,4 +128,13 @@ def new_course(request):
 
 
 def courses(request):
-    return render(request, 'courses.html', {'courses':Course.objects.all()})
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            department = form.cleaned_data.get('search_query')
+            result_courses = Course.objects.filter(department__exact=department)
+            return render(request, 'courses.html',
+                          {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form})
+    else:
+        form = SearchForm()
+    return render(request, 'courses.html', {'courses': Course.objects.all(), 'search_form': form})

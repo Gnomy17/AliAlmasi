@@ -39,4 +39,6 @@ class CourseForm(ModelForm):
         fields = ['department', 'name', 'course_number', 'group_number', 'teacher', 'start_time', 'end_time',
                   'first_day', 'second_day']
 
-# class SearchForm()
+
+class SearchForm(forms.Form):
+    search_query = forms.CharField(required=True)
