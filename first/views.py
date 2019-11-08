@@ -132,12 +132,36 @@ def courses(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             search_text = form.cleaned_data.get('search_query')
+            result_courses = list()
+            result_courses1 = None
+            result_courses2 = None
+            result_courses3 = None
             if form.cleaned_data.get('teacher'):
-                result_courses = Course.objects.filter(teacher=search_text)
-            elif form.cleaned_data.get('course'):
-                result_courses = Course.objects.filter(name=search_text)
-            else:
-                result_courses = Course.objects.filter(department=search_text)
+                result_courses1 = (Course.objects.filter(teacher__contains=search_text))
+            if form.cleaned_data.get('course'):
+                result_courses2 = (Course.objects.filter(name__contains=search_text))
+            if form.cleaned_data.get('department') or not (
+                    form.cleaned_data.get('teacher') or form.cleaned_data.get('course')):
+                result_courses3 = (Course.objects.filter(department__contains=search_text))
+            if result_courses1:
+                for course in result_courses1:
+                    result_courses.append(course)
+            if result_courses2:
+                for course in result_courses2:
+                    found = 0
+                    for course2 in result_courses:
+                        if course == course2:
+                            found = 1;
+                    if found == 0:
+                        result_courses.append(course)
+            if result_courses3:
+                for course in result_courses3:
+                    found = 0
+                    for course2 in result_courses:
+                        if course == course2:
+                            found = 1;
+                    if found == 0:
+                        result_courses.append(course)
             return render(request, 'courses.html',
                           {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form})
     else:
