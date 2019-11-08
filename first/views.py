@@ -1,5 +1,6 @@
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
 from first.forms import SignUpForm, LoginForm, ContactForm
 
@@ -60,6 +61,15 @@ def contact_us(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
+            # send_mail(
+            #     request.POST['title'],
+            #     request.POST['text'],
+            #     request.POST['email'],
+            #     # 'webe19lopers@gmail.com'
+            #     ['ahmadrahimiuni@gmail.com',]
+            # )
+            email = EmailMessage(request.POST['title'], request.POST['text'], to=['webe19lopers@gmail.com'])
+            email.send(fail_silently=False)
             return redirect('/contact_success')
         else:
             print("BAaaaaaaaaaaaa! no success!")
