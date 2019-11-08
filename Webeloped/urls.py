@@ -28,5 +28,5 @@ urlpatterns = [
     path('contact', contact_us, name='contact'),
     path('panel', panel, name='panel'),
     path('contact_success', contact_success, name='contact_success'),
-    path('profile', profile, name='profile')
+    path('profile', profile, name='profile'),
 ]
