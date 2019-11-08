@@ -30,6 +30,6 @@ urlpatterns = [
     path('panel', panel, name='panel'),
     path('contact_success', contact_success, name='contact_success'),
     path('profile', profile, name='profile'),
-    path('new_course', new_course, name='new_course')
+    path('new_course', new_course, name='new_course'),
     path('change_info', change_info, name='change_info'),
 ]
