@@ -6,11 +6,11 @@
 </head>
 <body>
 <div id="navbar">
-    {% if not user %}
+    {% if not user_auth %}
         <a id="login" href="{% url 'login' %}">login</a>
         <a id="register" href="{% url 'register' %}">register</a>
     {% endif %}
-    {% if user %}
+    {% if user_auth %}
         <a id="logout" href="{% url 'logout' %}">logout</a>
     {% endif %}
     <a id="homepage" href="/">home</a>

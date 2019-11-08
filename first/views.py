@@ -5,7 +5,7 @@ from first.forms import SignUpForm, LoginForm
 
 # Create your views here.
 def base_html(request):
-    return render(request, 'base.html', {'user': request.user.is_authenticated})
+    return render(request, 'base.html')
 
 
 def logout(request):
@@ -22,7 +22,6 @@ def register(request):
             raw_pass = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_pass)
             auth_login(request, user)
-
             return redirect('/register')
         else:
             for msg in form.error_messages:
