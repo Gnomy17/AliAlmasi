@@ -102,8 +102,8 @@ def change_info(request):
         if form.is_valid():
             user = request.user
             file = request.FILES.get('filee')
-            dest = open('media/' + user.username + '.png', 'wb+')
             if file:
+                dest = open('media/' + user.username + '.png', 'wb+')
                 for chunk in file.chunks():
                     dest.write(chunk)
             if form.cleaned_data.get('first_name'):
