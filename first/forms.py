@@ -31,6 +31,7 @@ class ContactForm(forms.Form):
 class ChangeInfo(forms.Form):
     first_name = forms.CharField(required=False)
     last_name = forms.CharField(required=False)
+    filee = forms.FileField(required=False)
 
 
 class CourseForm(ModelForm):
@@ -45,3 +46,4 @@ class SearchForm(forms.Form):
     department = forms.BooleanField(required=False)
     teacher = forms.BooleanField(required=False)
     course = forms.BooleanField(required=False)
+

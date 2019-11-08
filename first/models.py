@@ -19,6 +19,7 @@ class Course(models.Model):
     teacher = models.CharField(max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField()
+    exam_date = models.DateField()
     first_day = models.IntegerField(choices=DAYS_OF_WEEK)
     second_day = models.IntegerField(choices=DAYS_OF_WEEK, null=True, blank=True)
 

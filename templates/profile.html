@@ -4,5 +4,6 @@
     <span id="text_first_name">{{ user.first_name }}</span>
     <span id="text_last_name">{{ user.last_name }}</span>
     <span id="text_user_name">{{ user.username }}</span>
+    <img src="{{ imgpath }}"  id="profile_image">
     <a id="setting" href={% url 'change_info' %}> change info </a>
 {% endblock %}

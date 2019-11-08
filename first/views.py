@@ -1,8 +1,13 @@
+import glob
+import os
+
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
+from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm
+
 from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm, SearchForm
 
 # Create your views here.
@@ -89,15 +94,27 @@ def contact_success(request):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {'user': request.user})
+    paths = glob.glob("media/" + request.user.username + '/' + '*')
+    if len(paths) > 0:
+        path = paths[0]
+    else:
+        path = None
+    return render(request, 'profile.html',
+                  {'user': request.user, 'imgpath': path})
 
 
 @login_required
 def change_info(request):
     if request.method == 'POST':
-        form = ChangeInfo(request.POST)
+        form = ChangeInfo(request.POST, request.FILES)
         if form.is_valid():
             user = request.user
+            file = request.FILES.get('filee')
+            if file:
+                os.mkdir('media/' + user.username)
+                dest = open('media/' + user.username + '/' + file.name, 'wb+')
+                for chunk in file.chunks():
+                    dest.write(chunk)
             if form.cleaned_data.get('first_name'):
                 user.first_name = form.cleaned_data.get('first_name')
                 print("first name changed")
@@ -106,6 +123,9 @@ def change_info(request):
                 print("last name changed")
             user.save()
             return redirect('/profile')
+        else:
+            for msg in form.errors:
+                print(msg)
     else:
         form = ChangeInfo()
     return render(request, 'change_info.html', {'form': form})
