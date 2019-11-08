@@ -132,7 +132,7 @@ def courses(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             department = form.cleaned_data.get('search_query')
-            result_courses = Course.objects.filter(department__exact=department)
+            result_courses = Course.objects.filter(department=department)
             return render(request, 'courses.html',
                           {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form})
     else:
