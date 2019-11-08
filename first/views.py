@@ -95,7 +95,6 @@ def profile(request):
                   {'user': request.user, 'imgpath': "/media/" + request.user.username + '.png'})
 
 
-
 @login_required
 def change_info(request):
     if request.method == 'POST':
@@ -104,8 +103,9 @@ def change_info(request):
             user = request.user
             file = request.FILES.get('filee')
             dest = open('media/' + user.username + '.png', 'wb+')
-            for chunk in file.chunks():
-                dest.write(chunk)
+            if file:
+                for chunk in file.chunks():
+                    dest.write(chunk)
             if form.cleaned_data.get('first_name'):
                 user.first_name = form.cleaned_data.get('first_name')
                 print("first name changed")
