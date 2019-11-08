@@ -131,8 +131,13 @@ def courses(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            department = form.cleaned_data.get('search_query')
-            result_courses = Course.objects.filter(department=department)
+            search_text = form.cleaned_data.get('search_query')
+            if form.cleaned_data.get('teacher'):
+                result_courses = Course.objects.filter(teacher=search_text)
+            elif form.cleaned_data.get('course'):
+                result_courses = Course.objects.filter(name=search_text)
+            else:
+                result_courses = Course.objects.filter(department=search_text)
             return render(request, 'courses.html',
                           {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form})
     else:
