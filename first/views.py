@@ -1,4 +1,5 @@
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from first.forms import SignUpForm, LoginForm
 
@@ -16,16 +17,21 @@ def logout(request):
 def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        if form.is_valid():
+        raw_username = request.POST['username']
+        userFoundError = None
+        if User.objects.filter(username__exact=raw_username):
+            userFoundError = True
+        elif form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             raw_pass = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_pass)
             auth_login(request, user)
-            return redirect('/register')
-        else:
-            for msg in form.error_messages:
-                print(msg)
+            return render(request, 'register.html',
+                          {'form': form, 'pass_mismatch': form.error_messages['password_mismatch']})
+        return render(request, 'register.html',
+                      {'form': form, 'userFoundError': userFoundError,
+                       'pass_mismatch': form.error_messages['password_mismatch']})
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})

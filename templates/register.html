@@ -10,15 +10,18 @@
                 {% if field.help_text %}
                     <small style="color: cyan">{{ field.help_text }}</small>
                 {% endif %}
-            <div id="errors">
-                {% if  password_mismatch %}
-                    گذرواژه و تکرار گذرواژه یکسان نیستند
-                {% endif %}
-                <br>
-
-            </div>
             </p>
         {% endfor %}
         <button type="submit" name="submit">Register!</button>
+        <div id="errors">
+                {% if  pass_mismatch %}
+                    گذرواژه و تکرار گذرواژه یکسان نیستند
+                {% endif %}
+                {% if userFoundError %}
+                    نام کاربری شما در سیستم موجود است
+                {% endif %}
+                <br>
+
+        </div>
     </form>
 {% endblock %}
