@@ -13,6 +13,7 @@
     {% if user_auth %}
         <a id="logout" href="{% url 'logout' %}">logout</a>
         <a id="profile" href="{% url 'profile' %}">see profile!</a>
+        <a id="panel" href="{% url 'panel' %}">panel</a>
     {% endif %}
     <a id="homepage" href="/">home</a>
     <a id="contact_us" href="{% url 'contact' %}">contact us!</a>

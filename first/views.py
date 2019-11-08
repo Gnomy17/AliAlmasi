@@ -85,3 +85,7 @@ def contact_success(request):
 @login_required
 def profile(request):
     return render(request, 'profile.html', {'user':request.user})
+
+
+def panel(request):
+    return render(request, 'panel.html')
