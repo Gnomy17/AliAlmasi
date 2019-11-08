@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from first.models import Course
 
-
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, required=False, help_text="first name")
     last_name = forms.CharField(max_length=100, required=False, help_text="last name")
@@ -32,3 +31,8 @@ class CourseForm(ModelForm):
         model = Course
         fields = ['department', 'name', 'course_number', 'group_number', 'teacher', 'start_time', 'end_time',
                   'first_day', 'second_day']
+
+
+class ChangeInfo(forms.Form):
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
