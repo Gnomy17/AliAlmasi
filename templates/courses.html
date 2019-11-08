@@ -9,6 +9,7 @@
                 <div>{{ course.first_day }} {{ course.second_day }}</div>
                 <div>{{ course.start_time.hour }}:{{ course.start_time.minute }} {{ course.end_time.hour }}:{{ course.end_time.minute }}</div>
                 <div>{{ course.teacher }}</div>
+                <a href="/take_course/{{ course.id }}/">take this course</a>
             </div>
         {% endfor %}
     </div>
@@ -39,4 +40,15 @@
             {% endfor %}
         </div>
     {% endif %}
+    <div id="my_courses">
+        {% for course in my_courses %}
+            <div class="{{ course.course_number }}_{{ course.group_number }}">
+                <h4>{{ course.name }}</h4>
+                <div>{{ course.department }}</div>
+                <div>{{ course.first_day }} {{ course.second_day }}</div>
+                <div>{{ course.start_time.hour }}:{{ course.start_time.minute }} {{ course.end_time.hour }}:{{ course.end_time.minute }}</div>
+                <div>{{ course.teacher }}</div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

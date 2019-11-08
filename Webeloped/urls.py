@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from first.views import base_html, register, login, logout, contact_us, contact_success, profile, change_info, \
-    new_course, courses
+    new_course, courses, take_course
 from first.views import base_html, register, login, logout, contact_us, contact_success, panel
 
 urlpatterns = [
@@ -33,4 +33,5 @@ urlpatterns = [
     path('change_info', change_info, name='change_info'),
     path('new_course', new_course, name='new_course'),
     path('courses', courses, name='courses'),
+    path('take_course/<int:course_id>/', take_course, name='take_course')
 ]

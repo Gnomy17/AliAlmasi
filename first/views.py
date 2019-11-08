@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from first.forms import SignUpForm, LoginForm, ContactForm, ChangeInfo, CourseForm, SearchForm
 
 # Create your views here.
-from first.models import Course
+from first.models import Course, CourseUser
 
 
 def base_html(request):
@@ -126,8 +126,12 @@ def new_course(request):
         form = CourseForm()
     return render(request, 'new_course.html', {'form': form})
 
-
+@login_required
 def courses(request):
+    hi = CourseUser.objects.filter(user_id=request.user)
+    my_courses = list()
+    for course in hi:
+        my_courses.append(course.course_id)
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -163,7 +167,17 @@ def courses(request):
                     if found == 0:
                         result_courses.append(course)
             return render(request, 'courses.html',
-                          {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form})
+                          {'courses': Course.objects.all(), 'result_courses': result_courses, 'search_form': form, 'my_courses':my_courses})
     else:
         form = SearchForm()
-    return render(request, 'courses.html', {'courses': Course.objects.all(), 'search_form': form})
+    return render(request, 'courses.html', {'courses': Course.objects.all(), 'search_form': form, 'my_courses':my_courses})
+
+
+@login_required
+def take_course(request, course_id):
+    # print(request.GET.get('course_id'))
+    # print(course_id
+    course_user = CourseUser(user_id=request.user, course_id=Course.objects.get(pk=course_id))
+    course_user.save()
+    print("success")
+    return redirect('courses')
